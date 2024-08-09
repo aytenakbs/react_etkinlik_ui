@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import CategoryPage from './pages/CategoryPage'
+import DashboardLayout from './components/DashboardLayout';
 import './App.css';
+import ActivityDetail from './pages/ActivityDetail';
+import { Favorite } from '@mui/icons-material';
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <>
+  <DashboardLayout>
+  <Routes>
+    <Route path="/" element={<HomePage/>}/>
+    <Route path="/:activityId" element={<ActivityDetail/>}/>
+    <Route path="/category/:categoryId" element={<CategoryPage/>}/>
+    <Route path="/favorite" element={<Favorite/>}/>
+  </Routes>
+  </DashboardLayout>
+  </>
 }
 
-export default App;
+export default App

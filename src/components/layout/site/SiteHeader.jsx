@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { FavoriteContext } from '../context/FavoriteContext';
+import { FavoriteContext } from '../../../context/FavoriteContext';
 import { red } from '@mui/material/colors';
 
 

@@ -5,42 +5,43 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { FavoriteContext } from '../../context/FavoriteContext';
 import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
 
 function List() {
     const [activity, setactivity] = useState([])
     const [loading, setloading] = useState(true)
     const navigate = useNavigate()
     useEffect(() => {
-      loadActivities()
+        loadActivities()
     }, [])
-    const loadActivities=()=>{
+    const loadActivities = () => {
         baseService.getAll("Activity")
-        .then(res=>{
-            setactivity(res.data)
-            setloading(false)
-        })
+            .then(res => {
+                setactivity(res.data)
+                setloading(false)
+            })
     }
-    const {addToFavorites}=useContext(FavoriteContext)
-    const columns=[
+    const { isFavorite,favOperation } = useContext(FavoriteContext)
+    const columns = [
         {
-            field:"id",
-            header:"ID",
-            flex:0.2
+            field: "id",
+            header: "ID",
+            flex: 0.2
         },
         {
-            field:"name",
-            header:"Activity Name",
-            flex:0.2
+            field: "name",
+            header: "Activity Name",
+            flex: 0.2
         },
         {
-            field:"categoryId",
-            header:"Activity Category",
-            flex:0.2
+            field: "categoryId",
+            header: "Activity Category",
+            flex: 0.2
         },
         {
-            field:"description",
-            header:"Activity Description",
-            flex:0.2
+            field: "description",
+            header: "Activity Description",
+            flex: 0.2
         },
         {
             field: "delete",
@@ -54,10 +55,11 @@ function List() {
             field: "favorite",
             header: "Favorite",
             flex: 0.2,
-            renderCell: (params) => {
-                return <Button color="pink" variant="contained" onClick={() => add(params.row)}>Favorite</Button>
-            }
-
+            renderCell: (item) => <IconButton onClick={()=>favOperation(item.row)}>
+                {
+                    isFavorite(item.row.id) ? <StarIcon /> : <StarBorderIcon />
+                }
+            </IconButton>
         }
     ]
     const deleteActivity = (id) => {
@@ -66,17 +68,16 @@ function List() {
                 loadActivities()
             })
     }
-    const add=(activity)=>{
-        addToFavorites(activity)
-    }
 
-  return <>
-  <DataGrid
-  rows={activity}
-  columns={columns}
-  loading={loading}
-  />
-  </>
+
+
+    return <>
+        <DataGrid
+            rows={activity}
+            columns={columns}
+            loading={loading}
+        />
+    </>
 }
 
 export default List
